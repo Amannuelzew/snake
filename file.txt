@@ -1,0 +1,50 @@
+class Snake(pygame.sprite.Sprite):
+    def __init__(self, x, y) -> None:
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface([20, 20])
+        self.rect = self.image.get_rect()
+        self.rect.topleft = [x, y]
+        self.velocity = (0, 0)
+        self.current = None
+        # self.reswap()
+
+    # def reswap(self):
+    #     self.body = [(20, 20), (20, 40), (20, 60)]
+
+    # def draw(self):
+    #     for segment in [(20, 20), (20, 40), (20, 60)]:
+    #         print("me")
+    #         pygame.draw.rect(screen, BLACK, (segment[0], segment[1], 20, 20))
+
+    def update(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT] and self.current != pygame.K_RIGHT:
+            self.velocity = (-1, 0)
+            self.current = pygame.K_LEFT
+        elif keys[pygame.K_RIGHT] and self.current != pygame.K_LEFT:
+            self.velocity = (1, 0)
+            self.current = pygame.K_RIGHT
+        elif keys[pygame.K_UP] and self.current != pygame.K_DOWN:
+            self.velocity = (0, -1)
+            self.current = pygame.K_UP
+        elif keys[pygame.K_DOWN] and self.current != pygame.K_UP:
+            self.velocity = (0, 1)
+            self.current = pygame.K_DOWN
+        if self.rect.left >= 600:
+            self.rect.x = -20
+        elif self.rect.right <= 0:
+            self.rect.x = 600
+        elif self.rect.top >= 600:
+            self.rect.y = -20
+        elif self.rect.bottom <= 0:
+            self.rect.y = 600
+
+        # self.rect.move_ip(self.velocity)
+        if self.current is pygame.K_RIGHT:
+            self.rect.right += 20
+        if self.current is pygame.K_UP:
+            self.rect.top -= 20
+        if self.current is pygame.K_LEFT:
+            self.rect.right -= 20
+        if self.current is pygame.K_DOWN:
+            self.rect.top += 20
